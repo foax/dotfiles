@@ -1,3 +1,5 @@
+source "${HOME}/dotfiles/zsh_functions"
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -17,7 +19,7 @@ ZSH_THEME="agnoster"
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -47,14 +49,23 @@ HIST_STAMPS="yyyy-mm-dd"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(tmux git osx brew vi-mode terraform)
+# oh-my-zsh plugins - common
+plugins=(common-aliases colored-man-pages vi-mode)
 
-#ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_ITERM2=true
+# oh-my-zsh plugins - conditional on binary
+check_exec git && plugins+=(git)
+check_exec terraform && plugins+=(terraform)
+check_exec tmux && plugins+=(tmux)
+
+case $(uname -s) in
+  Darwin)
+    plugins+=(brew osx)
+
+    if check_exec tmux && [[ -n $ITERM_PROFILE ]]; then
+      ZSH_TMUX_ITERM2=true
+    fi
+    ;;
+esac
 
 source $ZSH/oh-my-zsh.sh
 
@@ -86,9 +97,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias vi="nvim"
-
-DEFAULT_USER="afox"
 
 setopt nohistverify
