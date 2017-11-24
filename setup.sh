@@ -12,7 +12,7 @@ dotfile_basedir=$(cd $(dirname $0); pwd)
 # I would use an associative array here, but this is only supported by
 # bash version 4+. So normal arrays it is.
 
-dotfiles=(oh-my-zsh zshrc zshenv)
+dotfiles=(oh-my-zsh zshrc zshenv terraformrc)
 
 echoerr() {
   echo "$@" 1>&2
