@@ -67,6 +67,7 @@ case $(uname -s) in
     ;;
 esac
 
+source ~/.zshenv
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
